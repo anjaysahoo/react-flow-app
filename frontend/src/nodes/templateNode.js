@@ -18,6 +18,14 @@ const TemplateNode = ({ id, config }) => {
         updateNodeField(id, fieldName, e.target.value)
     };
 
+    const handleTextareaChange = (e, fieldName) => {
+        const textarea = e.target;
+        textarea.style.height = 'auto'; // Reset the height
+        textarea.style.height = `${textarea.scrollHeight}px`; // Set it to the scroll height
+
+        handleChange(e, fieldName);
+    };
+
     const updateNodeField = useStore((state) => state.updateNodeField);
 
     const renderField = (field) => {
@@ -25,13 +33,12 @@ const TemplateNode = ({ id, config }) => {
             case 'text':
                 return (
                     <div key={field.name}>
-                        <label>{field.label}
-                        <input
-                            type="text"
+                        <label>{field.label}</label>
+                        <textarea
                             value={formValues[field.name]}
-                            onChange={(e) => handleChange(e, field.name)}
+                            onChange={(e) => handleTextareaChange(e, field.name)}
+                            style={{ width: '90%', overflow: 'auto', resize: 'none', maxHeight: '300px' }}
                         />
-                        </label>
                     </div>
                 );
             case 'select':
