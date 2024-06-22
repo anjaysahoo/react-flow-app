@@ -1,5 +1,4 @@
 import TemplateNode from "./templateNode";
-import {Handle, Position} from "reactflow";
 
 export const FormNode = ({id, data}) => {
     const formConfig = [
@@ -26,17 +25,16 @@ export const FormNode = ({id, data}) => {
         },
     ];
 
+    const outputHandles = [
+        { type: 'value' },
+    ]
+
     return (
-        <div style={{width: 200, height: 80, border: '1px solid black'}}>
-            <div>
-                <span>Form</span>
-            </div>
-            <TemplateNode config={formConfig} id={id}/>
-            <Handle
-                type="source"
-                position={Position.Right}
-                id={`${id}-value`}
-            />
-        </div>
+        <TemplateNode
+            label={'Form'}
+            config={formConfig}
+            id={id}
+            outputHandles={outputHandles}
+        />
     );
 }

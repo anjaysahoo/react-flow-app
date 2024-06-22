@@ -1,6 +1,5 @@
 // outputNode.js
 
-import { Handle, Position } from 'reactflow';
 import TemplateNode from "./templateNode";
 
 export const OutputNode = ({ id, data }) => {
@@ -19,17 +18,16 @@ export const OutputNode = ({ id, data }) => {
         }
     ];
 
-  return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-value`}
-      />
-      <div>
-        <span>Output</span>
-      </div>
-      <TemplateNode config={formConfig} id={id}/>
-    </div>
-  );
+    const inputHandles = [
+        { type: 'value' },
+    ]
+
+    return (
+        <TemplateNode
+            label={'LLM'}
+            config={formConfig}
+            id={id}
+            inputHandles={inputHandles}
+        />
+    );
 }

@@ -1,24 +1,14 @@
 import React, { useState } from 'react';
 import {useStore} from "../store";
 import {Handle, Position} from "reactflow";
+import {extractVariables, isValidVariableName} from "../utils/valid-variable-helper.util";
+import validateTextUtil from "../utils/validate-text.util";
 
-const isValidVariableName = (name) => {
-    return /^[a-zA-Z_$][a-zA-Z_$0-9]*$/.test(name);
-};
 
-const extractVariables = (text) => {
-    const regex = /{{\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\s*}}/g;
-    const variables = [];
-    let match;
-    while ((match = regex.exec(text)) !== null) {
-        variables.push(match[1]);
-    }
-    return variables;
-};
-
-const TemplateNode = ({ id, config }) => {
+const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) => {
     const [handles, setHandles] = useState({});
     const [textAreaHeight, setTextAreaHeight] = useState(0);
+    const [errors, setErrors] = useState({});
     const [formValues, setFormValues] = useState(() =>
         config.reduce((acc, field) => {
             acc[field.name] = field.value || '';
@@ -35,6 +25,15 @@ const TemplateNode = ({ id, config }) => {
         updateNodeField(id, fieldName, e.target.value)
     };
 
+    const handleTextChange = (e, fieldName, rules) => {
+        handleChange(e, fieldName);
+
+        const error = validateTextUtil(e.target.value, rules);
+        setErrors({
+            ...errors,
+            [fieldName]: error,
+        });
+    }
     const handleTextareaChange = (e, fieldName) => {
         const textarea = e.target;
         textarea.style.height = 'auto'; // Reset the height
@@ -43,7 +42,11 @@ const TemplateNode = ({ id, config }) => {
 
         handleChange(e, fieldName);
 
-        const newHandles = extractVariables(textarea.value).reduce((acc, variable) => {
+        updateHandle(textarea.value);
+    };
+
+    const updateHandle = (value) => {
+        const newHandles = extractVariables(value).reduce((acc, variable) => {
             if (isValidVariableName(variable)) {
                 acc[variable] = true;
             }
@@ -64,13 +67,28 @@ const TemplateNode = ({ id, config }) => {
             });
             return updatedHandles;
         });
-    };
+    }
 
     const updateNodeField = useStore((state) => state.updateNodeField);
 
     const renderField = (field) => {
+
+        const rules = field.validation || {};
+
         switch (field.type) {
             case 'text':
+                return (
+                    <div key={field.name}>
+                        <label>{field.label}</label>
+                        <input
+                            type="text"
+                            value={formValues[field.name]}
+                            onChange={(e) => handleTextChange(e, field.name, rules)}
+                        />
+                        {errors[field.name] && <span style={{ color: 'red' }}>{errors[field.name]}</span>}
+                    </div>
+                );
+            case 'textArea':
                 return (
                     <div key={field.name}>
                         <label>{field.label}</label>
@@ -136,7 +154,32 @@ const TemplateNode = ({ id, config }) => {
         }
     };
 
-    return <form>{config.map(renderField)}</form>;
-};
+    return(
+        <div style={{width: 200, height: 80, border: '1px solid black'}}>
+            <div>
+                <span>{label}</span>
+            </div>
+            <form>{config.map(renderField)}</form>
+            {inputHandles.map((inputHandle, index) => (
+                <Handle
+                    key={index}
+                    type="target"
+                    position={Position.Left}
+                    id={`${id}-${inputHandle.type}`}
+                    style={{top: `${(index + 1) * 50 / inputHandles.length}%`}}
+                />
+            ))}
+            {outputHandles.map((outputHandle, index) => (
+                <Handle
+                    key={index}
+                    type="source"
+                    position={Position.Right}
+                    id={`${id}-${outputHandle.type}`}
+                    style={{top: `${(index + 1) * 50 / outputHandles.length}%`}}
+                />
+            ))}
+        </div>
+    )
+}
 
 export default TemplateNode;

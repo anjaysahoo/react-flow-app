@@ -1,12 +1,16 @@
 // inputNode.js
 
-import { Handle, Position } from 'reactflow';
 import TemplateNode from "./templateNode";
 
 export const InputNode = ({ id, data }) => {
 
 const formConfig = [
-    { type: 'text', name: 'inputName', label: 'Name', value: data?.inputName || id.replace('customInput-', 'input_') },
+    { type: 'text', name: 'inputName', label: 'Name', value: data?.inputName || id.replace('customInput-', 'input_') ,
+        validation: {
+                maxLength: 15,
+                specialCharactersAllowed: false,
+        }
+    },
     {
         type: 'select',
         name: 'inputType',
@@ -19,17 +23,16 @@ const formConfig = [
     }
 ];
 
+    const outputHandles = [
+        { type: 'value' },
+    ]
+
   return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <div>
-        <span>Input</span>
-      </div>
-      <TemplateNode config={formConfig} id={id}/>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-value`}
+      <TemplateNode
+          label={'Input'}
+          config={formConfig}
+          id={id}
+          outputHandles={outputHandles}
       />
-    </div>
   );
 }
