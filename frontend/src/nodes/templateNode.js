@@ -1,7 +1,24 @@
 import React, { useState } from 'react';
 import {useStore} from "../store";
+import {Handle, Position} from "reactflow";
+
+const isValidVariableName = (name) => {
+    return /^[a-zA-Z_$][a-zA-Z_$0-9]*$/.test(name);
+};
+
+const extractVariables = (text) => {
+    const regex = /{{\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\s*}}/g;
+    const variables = [];
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+        variables.push(match[1]);
+    }
+    return variables;
+};
 
 const TemplateNode = ({ id, config }) => {
+    const [handles, setHandles] = useState({});
+    const [textAreaHeight, setTextAreaHeight] = useState(0);
     const [formValues, setFormValues] = useState(() =>
         config.reduce((acc, field) => {
             acc[field.name] = field.value || '';
@@ -22,8 +39,31 @@ const TemplateNode = ({ id, config }) => {
         const textarea = e.target;
         textarea.style.height = 'auto'; // Reset the height
         textarea.style.height = `${textarea.scrollHeight}px`; // Set it to the scroll height
+        setTextAreaHeight(textarea.scrollHeight);
 
         handleChange(e, fieldName);
+
+        const newHandles = extractVariables(textarea.value).reduce((acc, variable) => {
+            if (isValidVariableName(variable)) {
+                acc[variable] = true;
+            }
+            return acc;
+        }, {});
+
+        setHandles((prevHandles) => {
+            const updatedHandles = { ...prevHandles };
+            Object.keys(prevHandles).forEach((key) => {
+                if (!newHandles[key]) {
+                    delete updatedHandles[key];
+                }
+            });
+            Object.keys(newHandles).forEach((key) => {
+                if (!prevHandles[key]) {
+                    updatedHandles[key] = true;
+                }
+            });
+            return updatedHandles;
+        });
     };
 
     const updateNodeField = useStore((state) => state.updateNodeField);
@@ -39,6 +79,15 @@ const TemplateNode = ({ id, config }) => {
                             onChange={(e) => handleTextareaChange(e, field.name)}
                             style={{ width: '90%', overflow: 'auto', resize: 'none', maxHeight: '300px' }}
                         />
+                        {Object.keys(handles).map((variable, index) => (
+                            <Handle
+                                key={variable}
+                                type="source"
+                                position={Position.Left}
+                                id={`${field.name}-${variable}`}
+                                style={{ top: `${(textAreaHeight / (Object.keys(handles).length + 1)) * (index + 1)}px` }}
+                            />
+                        ))}
                     </div>
                 );
             case 'select':
