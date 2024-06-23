@@ -1,6 +1,7 @@
 // llmNode.js
 
 import TemplateNode from "../lib/template-node/templateNode";
+import {llmIcon} from "../utils/app-icon.util";
 
 export const LLMNode = ({ id, data }) => {
 
@@ -24,6 +25,7 @@ export const LLMNode = ({ id, data }) => {
               id={id}
               inputHandles={inputHandles}
               outputHandles={outputHandles}
+              icon={llmIcon}
           />
   );
 }

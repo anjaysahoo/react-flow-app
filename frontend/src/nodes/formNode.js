@@ -1,4 +1,5 @@
 import TemplateNode from "../lib/template-node/templateNode";
+import {formIcon} from "../utils/app-icon.util";
 
 export const FormNode = ({id, data}) => {
     const formConfig = [
@@ -35,6 +36,7 @@ export const FormNode = ({id, data}) => {
             config={formConfig}
             id={id}
             outputHandles={outputHandles}
+            icon={formIcon}
         />
     );
 }

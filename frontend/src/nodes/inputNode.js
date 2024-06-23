@@ -1,6 +1,7 @@
 // inputNode.js
 
 import TemplateNode from "../lib/template-node/templateNode";
+import {inputIcon} from "../utils/app-icon.util";
 
 export const InputNode = ({ id, data }) => {
 
@@ -33,6 +34,7 @@ const formConfig = [
           config={formConfig}
           id={id}
           outputHandles={outputHandles}
+          icon={inputIcon}
       />
   );
 }

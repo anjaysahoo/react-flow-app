@@ -1,6 +1,7 @@
 // outputNode.js
 
 import TemplateNode from "../lib/template-node/templateNode";
+import {outputIcon} from "../utils/app-icon.util";
 
 export const OutputNode = ({ id, data }) => {
 
@@ -28,6 +29,7 @@ export const OutputNode = ({ id, data }) => {
             config={formConfig}
             id={id}
             inputHandles={inputHandles}
+            icon={outputIcon}
         />
     );
 }

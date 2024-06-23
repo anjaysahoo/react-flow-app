@@ -4,9 +4,10 @@ import validateTextUtil from "../../utils/validate-text.util";
 import {extractVariables, isValidVariableName} from "../../utils/valid-variable-helper.util";
 import {useStore} from "../../store";
 import classes from "./templateNode.module.css";
+import Icon from "../icon";
 
 
-const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) => {
+const TemplateNode = ({ label,icon, id, config, inputHandles=[], outputHandles=[] }) => {
     const [handles, setHandles] = useState({'input': true});
     const [textAreaHeight, setTextAreaHeight] = useState(0);
     const [errors, setErrors] = useState({});
@@ -172,6 +173,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                 className={classes["node__header"]}
                 style={{color: selectedNodeId === id ? '#585bef':'' }}
             >
+                <Icon d={icon} color={selectedNodeId === id ? '#585bef':'#7d838e' }  size={"1em"}/>
                 {label}
             </div>
             <form className={classes["node__fields"]}>{config.map(renderField)}</form>

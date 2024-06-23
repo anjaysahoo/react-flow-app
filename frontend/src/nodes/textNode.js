@@ -1,6 +1,7 @@
 // textNode.js
 
 import TemplateNode from "../lib/template-node/templateNode";
+import {textIcon} from "../utils/app-icon.util";
 
 export const TextNode = ({ id, data }) => {
     const formConfig = [
@@ -17,6 +18,7 @@ export const TextNode = ({ id, data }) => {
             config={formConfig}
             id={id}
             outputHandles={outputHandles}
+            icon={textIcon}
         />
     );
 }

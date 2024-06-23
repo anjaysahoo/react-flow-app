@@ -21,6 +21,10 @@
 }
 
 .node__header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 0.5rem;
     font-size: larger;
     font-weight: 500;
     color: var(--alt-txt-color);
