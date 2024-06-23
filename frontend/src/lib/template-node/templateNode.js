@@ -7,7 +7,7 @@ import classes from "./templateNode.module.css";
 
 
 const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) => {
-    const [handles, setHandles] = useState({});
+    const [handles, setHandles] = useState({'input': true});
     const [textAreaHeight, setTextAreaHeight] = useState(0);
     const [errors, setErrors] = useState({});
     const updateNodeField = useStore((state) => state.updateNodeField);
@@ -113,7 +113,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                                 type="source"
                                 position={Position.Left}
                                 id={`${field.name}-${variable}`}
-                                style={{ top: `${(textAreaHeight / (Object.keys(handles).length + 1)) * (index + 1)}px` }}
+                                style={{top: `${((textAreaHeight+100)  / (Object.keys(handles).length + 1)) * (index + 1)}px`, left: '-2.5%', height: '15px', width: '15px',border: '2px solid #2a2de1', background: 'white'}}
                             />
                         ))}
                     </div>
@@ -178,7 +178,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                     type="target"
                     position={Position.Left}
                     id={`${id}-${inputHandle.type}`}
-                    style={{top: `${(index + 1) * 50 / inputHandles.length}%`}}
+                    style={{top: `${(index + 1) * 50 / inputHandles.length}%`, left: '-2.5%', height: '15px', width: '15px',border: '2px solid #2a2de1', background: 'white'}}
                     className={classes["node-handle"]}
                 />
             ))}
@@ -188,7 +188,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                     type="source"
                     position={Position.Right}
                     id={`${id}-${outputHandle.type}`}
-                    style={{top: `${(index + 1) * 50 / outputHandles.length}%`, left: '97.5%', height: '15px', width: '15px',border: '1px solid #2a2de1', background: 'white'}}
+                    style={{top: `${(index + 1) * 50 / outputHandles.length}%`, left: '97.5%', height: '15px', width: '15px',border: '2px solid #2a2de1', background: 'white'}}
                     className={classes["node-handle"]}
                 />
             ))}
