@@ -1,0 +1,13 @@
+.draggable-node{
+    cursor: grab;
+    min-width: 70px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    border:1px solid #7d838e;
+    background-color: white;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.3rem;
+}

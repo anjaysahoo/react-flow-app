@@ -56,7 +56,7 @@
 .node__fields__field input,
 .node__fields__field select,
 .node__fields__field textarea {
-    width: 100%;
+    /*width: 100%;*/
     padding: 0.7rem;
     border: 1px solid #d3d3d7;
     border-radius: 5px;
@@ -77,9 +77,11 @@
     max-height: 200px;
 }
 
-.node-handle {
-    border: 1px solid #2a2de1;
-    border-radius: 50%;
-    width: 10rem;
-    height: 10rem;
+.node__fields__field-radio{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 0.3rem;
 }

@@ -140,16 +140,21 @@ const TemplateNode = ({ label,icon, id, config, inputHandles=[], outputHandles=[
                     <div key={field.name} className={classes["node__fields__field"]}>
                         <label>{field.label}</label>
                         {field.options.map((option) => (
-                            <label key={option.value}>
+                            <div className={classes["node__fields__field-radio"]}>
                                 <input
                                     type="radio"
                                     name={field.name}
+                                    id={field.name}
                                     value={option.value}
                                     checked={formValues[field.name] === option.value}
                                     onChange={(e) => handleChange(e, field.name)}
                                 />
-                                {option.label}
-                            </label>
+                                <label
+                                    key={option.value}
+                                    form={field.name}
+                                >{option.label}
+                                </label>
+                            </div>
                         ))}
                     </div>
                 );
@@ -164,7 +169,7 @@ const TemplateNode = ({ label,icon, id, config, inputHandles=[], outputHandles=[
         }
     };
 
-    return(
+    return (
         <div
             className={`${classes["node"]} ${selectedNodeId === id ? classes["selected"] : ''}`}
             onClick={() => handleNodeSelect(id)}

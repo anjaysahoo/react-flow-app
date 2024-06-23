@@ -1,6 +1,11 @@
 // draggableNode.js
 
-export const DraggableNode = ({ type, label }) => {
+import Icon from "./lib/icon";
+import React from "react";
+import {inputIcon} from "./utils/app-icon.util";
+import classes from "./draggableNode.module.css";
+
+export const DraggableNode = ({ type, label, icon }) => {
     const onDragStart = (event, nodeType) => {
       const appData = { nodeType }
       event.target.style.cursor = 'grabbing';
@@ -10,24 +15,13 @@ export const DraggableNode = ({ type, label }) => {
   
     return (
       <div
-        className={type}
+        className={classes["draggable-node"]}
         onDragStart={(event) => onDragStart(event, type)}
         onDragEnd={(event) => (event.target.style.cursor = 'grab')}
-        style={{ 
-          cursor: 'grab', 
-          minWidth: '80px', 
-          height: '60px',
-          display: 'flex', 
-          alignItems: 'center', 
-          borderRadius: '8px',
-          backgroundColor: '#1C2536',
-          justifyContent: 'center', 
-          flexDirection: 'column'
-        }} 
         draggable
       >
-          <span style={{ color: '#fff' }}>{label}</span>
+          <Icon d={icon} color={'#7d838e' }  size={"1em"}/>
+          <span style={{ color: '#7d838e', fontSize: '0.8em',  }}>{label}</span>
       </div>
     );
   };
-  
