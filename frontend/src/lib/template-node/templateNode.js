@@ -10,6 +10,10 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
     const [handles, setHandles] = useState({});
     const [textAreaHeight, setTextAreaHeight] = useState(0);
     const [errors, setErrors] = useState({});
+    const updateNodeField = useStore((state) => state.updateNodeField);
+    const setSelectedNode = useStore((state) => state.setSelectedNode);
+    const selectedNodeId = useStore((state) => state.selectedNodeId);
+
     const [formValues, setFormValues] = useState(() =>
         config.reduce((acc, field) => {
             acc[field.name] = field.value || '';
@@ -17,6 +21,10 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
         }, {})
     );
 
+
+    const handleNodeSelect = (id) => {
+        setSelectedNode(id);
+    };
     const handleChange = (e, fieldName) => {
         const newValues = {
             ...formValues,
@@ -70,7 +78,8 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
         });
     }
 
-    const updateNodeField = useStore((state) => state.updateNodeField);
+
+
 
     const renderField = (field) => {
 
@@ -79,7 +88,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
         switch (field.type) {
             case 'text':
                 return (
-                    <div key={field.name} className={classes["node-field"]}>
+                    <div key={field.name} className={classes["node__fields__field"]}>
                         <label>{field.label}</label>
                         <input
                             type="text"
@@ -91,7 +100,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                 );
             case 'textArea':
                 return (
-                    <div key={field.name} className={classes["node-field"]}>
+                    <div key={field.name} className={classes["node__fields__field"]}>
                         <label>{field.label}</label>
                         <textarea
                             value={formValues[field.name]}
@@ -111,8 +120,8 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                 );
             case 'select':
                 return (
-                    <div key={field.name} className={classes["node-field"]}>
-                        <label>{field.label}
+                    <div key={field.name} className={classes["node__fields__field"]}>
+                        <label>{field.label}</label>
                         <select
                             value={formValues[field.name]}
                             onChange={(e) => handleChange(e, field.name)}
@@ -123,12 +132,11 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                                 </option>
                             ))}
                         </select>
-                        </label>
                     </div>
                 );
             case 'radio':
                 return (
-                    <div key={field.name} className={classes["node-field"]}>
+                    <div key={field.name} className={classes["node__fields__field"]}>
                         <label>{field.label}</label>
                         {field.options.map((option) => (
                             <label key={option.value}>
@@ -146,7 +154,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                 );
             default:
                 return (
-                    <div key={field.name} className={classes["node-field"]}>
+                    <div key={field.name} className={classes["node__fields__field"]}>
                         <div>
                             <span>{formValues[field.name]}</span>
                         </div>
@@ -156,11 +164,14 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
     };
 
     return(
-        <div className={classes["node-container"]}>
-            <div className={classes["node-header"]}>
-                <span>{label}</span>
+        <div
+            className={`${classes["node"]} ${selectedNodeId === id ? classes["selected"] : ''}`}
+            onClick={() => handleNodeSelect(id)}
+        >
+            <div className={classes["node__header"]}>
+                {label}
             </div>
-            <form>{config.map(renderField)}</form>
+            <form className={classes["node__fields"]}>{config.map(renderField)}</form>
             {inputHandles.map((inputHandle, index) => (
                 <Handle
                     key={index}
@@ -177,7 +188,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                     type="source"
                     position={Position.Right}
                     id={`${id}-${outputHandle.type}`}
-                    style={{top: `${(index + 1) * 50 / outputHandles.length}%`}}
+                    style={{top: `${(index + 1) * 50 / outputHandles.length}%`, left: '97.5%', height: '15px', width: '15px',border: '1px solid #2a2de1', background: 'white'}}
                     className={classes["node-handle"]}
                 />
             ))}
