@@ -168,7 +168,10 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
             className={`${classes["node"]} ${selectedNodeId === id ? classes["selected"] : ''}`}
             onClick={() => handleNodeSelect(id)}
         >
-            <div className={classes["node__header"]}>
+            <div
+                className={classes["node__header"]}
+                style={{color: selectedNodeId === id ? '#585bef':'' }}
+            >
                 {label}
             </div>
             <form className={classes["node__fields"]}>{config.map(renderField)}</form>

@@ -45,8 +45,8 @@
     color: var(--alt-txt-color);
 }
 
-.node__fields__field label:focus {
-    color: #0d11cc;
+.node__fields__field:focus-within label {
+    color: var(--primary-color);
 }
 
 .node__fields__field input,
