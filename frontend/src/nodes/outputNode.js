@@ -25,7 +25,7 @@ export const OutputNode = ({ id, data }) => {
 
     return (
         <TemplateNode
-            label={'LLM'}
+            label={'Output'}
             config={formConfig}
             id={id}
             inputHandles={inputHandles}

@@ -2,7 +2,6 @@
 
 import Icon from "./lib/icon";
 import React from "react";
-import {inputIcon} from "./utils/app-icon.util";
 import classes from "./draggableNode.module.css";
 
 export const DraggableNode = ({ type, label, icon }) => {
@@ -21,7 +20,7 @@ export const DraggableNode = ({ type, label, icon }) => {
         draggable
       >
           <Icon d={icon} color={'#7d838e' }  size={"1em"}/>
-          <span style={{ color: '#7d838e', fontSize: '0.8em',  }}>{label}</span>
+          <span style={{ color: '#7d838e', fontSize: '0.8em'}}>{label}</span>
       </div>
     );
   };
