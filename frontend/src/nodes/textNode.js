@@ -1,6 +1,6 @@
 // textNode.js
 
-import TemplateNode from "./templateNode";
+import TemplateNode from "../lib/template-node/templateNode";
 
 export const TextNode = ({ id, data }) => {
     const formConfig = [

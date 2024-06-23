@@ -1,6 +1,6 @@
 // inputNode.js
 
-import TemplateNode from "./templateNode";
+import TemplateNode from "../lib/template-node/templateNode";
 
 export const InputNode = ({ id, data }) => {
 

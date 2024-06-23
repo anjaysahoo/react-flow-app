@@ -1,6 +1,6 @@
 // outputNode.js
 
-import TemplateNode from "./templateNode";
+import TemplateNode from "../lib/template-node/templateNode";
 
 export const OutputNode = ({ id, data }) => {
 

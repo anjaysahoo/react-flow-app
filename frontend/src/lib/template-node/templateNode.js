@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import {useStore} from "../store";
 import {Handle, Position} from "reactflow";
-import {extractVariables, isValidVariableName} from "../utils/valid-variable-helper.util";
-import validateTextUtil from "../utils/validate-text.util";
+import validateTextUtil from "../../utils/validate-text.util";
+import {extractVariables, isValidVariableName} from "../../utils/valid-variable-helper.util";
+import {useStore} from "../../store";
+import classes from "./templateNode.module.css";
 
 
 const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) => {
@@ -78,7 +79,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
         switch (field.type) {
             case 'text':
                 return (
-                    <div key={field.name}>
+                    <div key={field.name} className={classes["node-field"]}>
                         <label>{field.label}</label>
                         <input
                             type="text"
@@ -90,7 +91,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                 );
             case 'textArea':
                 return (
-                    <div key={field.name}>
+                    <div key={field.name} className={classes["node-field"]}>
                         <label>{field.label}</label>
                         <textarea
                             value={formValues[field.name]}
@@ -110,7 +111,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                 );
             case 'select':
                 return (
-                    <div key={field.name}>
+                    <div key={field.name} className={classes["node-field"]}>
                         <label>{field.label}
                         <select
                             value={formValues[field.name]}
@@ -127,7 +128,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                 );
             case 'radio':
                 return (
-                    <div key={field.name}>
+                    <div key={field.name} className={classes["node-field"]}>
                         <label>{field.label}</label>
                         {field.options.map((option) => (
                             <label key={option.value}>
@@ -145,7 +146,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                 );
             default:
                 return (
-                    <div key={field.name}>
+                    <div key={field.name} className={classes["node-field"]}>
                         <div>
                             <span>{formValues[field.name]}</span>
                         </div>
@@ -155,8 +156,8 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
     };
 
     return(
-        <div style={{width: 200, height: 80, border: '1px solid black'}}>
-            <div>
+        <div className={classes["node-container"]}>
+            <div className={classes["node-header"]}>
                 <span>{label}</span>
             </div>
             <form>{config.map(renderField)}</form>
@@ -167,6 +168,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                     position={Position.Left}
                     id={`${id}-${inputHandle.type}`}
                     style={{top: `${(index + 1) * 50 / inputHandles.length}%`}}
+                    className={classes["node-handle"]}
                 />
             ))}
             {outputHandles.map((outputHandle, index) => (
@@ -176,6 +178,7 @@ const TemplateNode = ({ label, id, config, inputHandles=[], outputHandles=[] }) 
                     position={Position.Right}
                     id={`${id}-${outputHandle.type}`}
                     style={{top: `${(index + 1) * 50 / outputHandles.length}%`}}
+                    className={classes["node-handle"]}
                 />
             ))}
         </div>

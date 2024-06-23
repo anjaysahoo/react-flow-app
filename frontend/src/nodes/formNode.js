@@ -1,4 +1,4 @@
-import TemplateNode from "./templateNode";
+import TemplateNode from "../lib/template-node/templateNode";
 
 export const FormNode = ({id, data}) => {
     const formConfig = [
